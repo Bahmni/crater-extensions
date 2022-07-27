@@ -1,0 +1,73 @@
+name: CI
+
+on:
+  push:
+    branches:
+      - main
+    tags:
+      - '*'
+  pull_request:
+    branches:
+      - main
+env:
+  CRATER_VERSION: 1.0.0
+jobs:
+  build-publish:
+    name: Docker-Helm build and publish
+    runs-on: ubuntu-latest
+    env:
+      HELM_CHART_PATH: package/helm/crater
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+        with:
+          fetch-depth: 0
+      - name: derive version tag
+        run: |
+          if [[ "${{ github.ref }}" =~ ^refs/tags* ]]; then
+            echo "VERSION_TAG=${{ env.CRATER_VERSION }}" >> $GITHUB_ENV
+          else
+            echo "VERSION_TAG=${{ env.CRATER_VERSION }}-${{ github.run_number }}" >> $GITHUB_ENV
+          fi
+      - name: Login to DockerHub
+        uses: docker/login-action@v1
+        with:
+          username: ${{ secrets.DOCKER_HUB_USERNAME }}
+          password: ${{ secrets.DOCKER_HUB_TOKEN }}
+      - name: Docker Build and push crater-php
+        uses: docker/build-push-action@v2
+        with:
+          context: .
+          file: package/docker/Dockerfile
+          push: true
+          tags: bahmni/crater-php:${{env.VERSION_TAG}},bahmni/crater-php:latest
+      - name: Update Version and Image Tag
+        run: |
+          yq --inplace '.image.php.tag = "${{ env.VERSION_TAG }}"' $HELM_CHART_PATH/values.yaml
+          yq --inplace '.version = "${{ env.VERSION_TAG }}"' $HELM_CHART_PATH/Chart.yaml
+      - name: Helm Lint
+        run: helm lint $HELM_CHART_PATH
+      - name: Helm Package
+        run: helm package $HELM_CHART_PATH
+      - name: Checkout Charts Repository
+        uses: actions/checkout@v2
+        with:
+          repository: Bahmni/helm-charts
+          ref: gh-pages
+          path: helm-charts
+          persist-credentials: false
+      - name: Copy Helm Archive
+        run: cp crater-${{ env.VERSION_TAG }}.tgz helm-charts/crater/
+      - name: Helm Index
+        working-directory: helm-charts/
+        run:
+          helm repo index --merge index.yaml --url
+          https://bahmni.github.io/helm-charts/  .
+      - name: Commit and Push Chart Repository
+        working-directory: helm-charts/
+        run: |
+          git config user.name ${{ secrets.BAHMNI_USERNAME}}
+          git config user.email ${{ secrets.BAHMNI_EMAIL}}
+          git add .
+          git commit -m "Release of crater-${{ env.VERSION_TAG }}"
+          git push 'https://${{ secrets.BAHMNI_USERNAME}}:${{ secrets.BAHMNI_PAT}}@github.com/bahmni/helm-charts.git' gh-pages
