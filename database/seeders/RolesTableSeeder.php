@@ -16,44 +16,26 @@ class RolesTableSeeder extends Seeder
     public function run()
     {
         if (Role::count() === 1) {
-            $doctor = Role::create([
-                'name' => 'doctor',
-                'title' => "Doctor",
-                'scope' => 1,
-            ]);
-
-            $frontdesk = Role::create([
-                'name' => 'front desk',
-                'title' => "Front Desk",
-                'scope' => 1,
-            ]);
 
             $permissions = [];
 
-            $doctor_permissions = json_decode(file_get_contents(
-                "database/seeders/roles/doctor_permissions.json"
-            ), true);
-            foreach ($doctor_permissions as $permission) {
-                $permissions[] = [
-                    'ability_id' => $permission["ability_id"],
-                    'entity_id' => $doctor->id,
-                    'entity_type' => 'roles',
-                    'forbidden' => 0,
-                    'scope' => 1
-                ];
-            }
-
-            $frontdesk_permissions = json_decode(file_get_contents(
-                "database/seeders/roles/frontdesk_permissions.json"
-            ), true);
-            foreach ($frontdesk_permissions as $permission) {
-                $permissions[] = [
-                    'ability_id' => $permission["ability_id"],
-                    'entity_id' => $frontdesk->id,
-                    'entity_type' => 'roles',
-                    'forbidden' => 0,
-                    'scope' => 1
-                ];
+            $roles = json_decode(file_get_contents("database/seeders/json/roles.json"), true);
+            foreach ($roles as $role) {
+                $role_obj = Role::create([
+                    'name' => $role['name'],
+                    'title' => $role['title'],
+                    'scope' => 1,
+                ]);
+                foreach ($role["permissions"] as $permission) {
+                    $ability = DB::table('abilities')->where('name', $permission)->first();
+                    $permissions[] = [
+                        'ability_id' => $ability->id,
+                        'entity_id' => $role_obj->id,
+                        'entity_type' => 'roles',
+                        'forbidden' => 0,
+                        'scope' => 1
+                    ];
+                }
             }
 
             DB::table('permissions')->insert($permissions);

@@ -1,0 +1,58 @@
+[
+    {
+        "name": "doctor",
+        "title": "Doctor",
+        "permissions": [
+            "view-customer",
+            "create-customer",
+            "edit-customer",
+            "delete-customer",
+            "view-item",
+            "create-item",
+            "edit-item",
+            "delete-item",
+            "view-estimate",
+            "create-estimate",
+            "edit-estimate",
+            "delete-estimate",
+            "send-estimate",
+            "view-invoice",
+            "create-invoice",
+            "edit-invoice",
+            "delete-invoice",
+            "send-invoice",
+            "view-payment",
+            "create-payment",
+            "edit-payment",
+            "delete-payment",
+            "send-payment",
+            "view-financial-reports",
+            "dashboard"
+        ]                
+    },
+    {
+        "name": "front desk",
+        "title": "Front Desk",
+        "permissions": [
+            "view-customer",
+            "create-customer",
+            "edit-customer",
+            "view-item",
+            "create-item",
+            "edit-item",
+            "view-estimate",
+            "create-estimate",
+            "edit-estimate",
+            "send-estimate",
+            "view-invoice",
+            "create-invoice",
+            "edit-invoice",
+            "send-invoice",
+            "view-payment",
+            "create-payment",
+            "edit-payment",
+            "delete-payment",
+            "send-payment"
+        ]           
+    }
+]

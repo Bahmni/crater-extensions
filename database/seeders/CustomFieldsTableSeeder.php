@@ -15,21 +15,21 @@ class CustomFieldsTableSeeder extends Seeder
     public function run()
     {
         if (empty(CustomField::count())) {
-            $customfields = [
-                [
-                    'name' => 'GST Number',
-                    'slug' => 'CUSTOM_INVOICE_GST_NUMBER',
-                    'label' => 'GST Number',
-                    'model_type' => 'Invoice',
-                    'type' => 'Number',
-                    'is_required' => 0,
-                    'order' => 1,
-                    'company_id' => 1,
-                ],
-            ];
 
-            foreach ($customfields as $customfield) {
-                CustomField::create($customfield);
+            $custom_fields = json_decode(file_get_contents(
+                "database/seeders/json/custom_fields.json"
+            ), true);
+            foreach ($custom_fields as $custom_field) {
+                CustomField::create([
+                    'name' => $custom_field['name'],
+                    'slug' => $custom_field['slug'],
+                    'label' => $custom_field['label'],
+                    'model_type' => $custom_field['model_type'],
+                    'type' => $custom_field['type'],
+                    'is_required' => $custom_field['is_required'],
+                    'order' => $custom_field['order'],
+                    'company_id' => $custom_field['company_id'],
+                ]);
             }
         }
     }
