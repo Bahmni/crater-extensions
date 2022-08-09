@@ -1,3 +1,8 @@
+global:
+  nodeSelector: {}
+  affinity: {}
+  tolerations: {}
+
 nginxReplicaCount: 1
 
 phpReplicaCount: 1
@@ -45,3 +50,8 @@ secrets:
 
 autoscaling:
   enabled: false
+
+nodeSelector: {}
+affinity: {}
+tolerations: {}
+
