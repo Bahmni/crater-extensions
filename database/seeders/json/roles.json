@@ -11,6 +11,7 @@
             "create-item",
             "edit-item",
             "delete-item",
+            "view-tax-type",
             "view-estimate",
             "create-estimate",
             "edit-estimate",
@@ -26,8 +27,10 @@
             "edit-payment",
             "delete-payment",
             "send-payment",
+            "view-custom-field",
             "view-financial-reports",
-            "dashboard"
+            "dashboard",
+            "view-all-notes"
         ]                
     },
     {
@@ -40,6 +43,7 @@
             "view-item",
             "create-item",
             "edit-item",
+            "view-tax-type",
             "view-estimate",
             "create-estimate",
             "edit-estimate",
@@ -52,7 +56,9 @@
             "create-payment",
             "edit-payment",
             "delete-payment",
-            "send-payment"
+            "send-payment",
+            "view-custom-field",
+            "view-all-notes"
         ]           
     }
 ]
