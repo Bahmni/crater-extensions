@@ -2,6 +2,7 @@ global:
   nodeSelector: {}
   affinity: {}
   tolerations: {}
+  storageClass: ""
 
 nginxReplicaCount: 1
 
@@ -55,3 +56,6 @@ nodeSelector: {}
 affinity: {}
 tolerations: {}
 
+volumes:
+  craterAppData:
+    capacity: 8Gi
