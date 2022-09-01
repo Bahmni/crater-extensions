@@ -55,7 +55,15 @@ spec:
           ports:
             - containerPort: {{ .Values.service.nginx.port }}
               protocol: TCP
+          volumeMounts:
+            - mountPath: /var/www/public/storage
+              name: crater-app-data
       restartPolicy: Always
+
+      volumes:
+        - name: crater-app-data
+          persistentVolumeClaim:
+            claimName: crater-app-data-pvc
 
 ---
 
@@ -121,4 +129,12 @@ spec:
             - secretRef:
                 name: {{.Chart.Name }}-secrets
                 optional: false
+          volumeMounts:
+            - mountPath: /var/www/storage/app/public
+              name: crater-app-data
       restartPolicy: Always
+
+      volumes:
+        - name: crater-app-data
+          persistentVolumeClaim:
+            claimName: crater-app-data-pvc
