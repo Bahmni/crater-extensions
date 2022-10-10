@@ -6,6 +6,9 @@ on:
       - main 
     tags:
       - '*'
+  repository_dispatch:
+    types: 
+      - crater-php-trigger
 env:
   CRATER_VERSION: 1.0.0
 jobs:
