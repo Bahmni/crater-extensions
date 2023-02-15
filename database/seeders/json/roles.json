@@ -58,7 +58,8 @@
             "delete-payment",
             "send-payment",
             "view-custom-field",
-            "view-all-notes"
+            "view-all-notes",
+            "dashboard"
         ]           
     }
 ]
