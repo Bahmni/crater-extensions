@@ -44,6 +44,7 @@ jobs:
       - name: Update Version and Image Tag
         run: |
           yq --inplace '.image.php.tag = "${{ env.VERSION_TAG }}"' $HELM_CHART_PATH/values.yaml
+          yq --inplace '.image.nginx.tag = "${{ github.event.client_payload.crater_nginx_version || 'latest' }}"' $HELM_CHART_PATH/values.yaml
           yq --inplace '.version = "${{ env.VERSION_TAG }}"' $HELM_CHART_PATH/Chart.yaml
       - name: Helm Lint
         run: helm lint $HELM_CHART_PATH
