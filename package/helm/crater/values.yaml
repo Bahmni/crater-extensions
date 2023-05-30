@@ -3,6 +3,7 @@ global:
   affinity: {}
   tolerations: {}
   storageClass: ""
+  TZ: "UTC"
 
 nginxReplicaCount: 1
 
