@@ -15,3 +15,4 @@ data:
   COMPANY_NAME: "{{ .Values.config.COMPANY_NAME }}"
   COMPANY_SLUG: "{{ .Values.config.COMPANY_SLUG }}"
   COUNTRY_ID: "{{ .Values.config.COUNTRY_ID }}"
+  TZ: "{{ .Values.global.TZ }}"
