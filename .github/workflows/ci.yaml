@@ -10,7 +10,7 @@ on:
     types: 
       - crater-php-trigger
 env:
-  CRATER_VERSION: 1.0.0
+  CRATER_VERSION: 1.1.0
 jobs:
   build-publish:
     name: Docker-Helm build and publish
