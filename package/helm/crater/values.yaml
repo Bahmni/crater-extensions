@@ -43,6 +43,7 @@ config:
   COMPANY_NAME: xyz
   COMPANY_SLUG: xyz
   COUNTRY_ID: 1
+  CRATER_DEFAULT_CURRENCY: USD
 
 secrets:
   DB_USERNAME: ""
